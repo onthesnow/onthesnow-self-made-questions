@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/onthesnow/onthesnow-self-made-questions/static/css/main.c05fda78.chunk.css",
+    "main.js": "/onthesnow/onthesnow-self-made-questions/static/js/main.5dfda36b.chunk.js",
+    "main.js.map": "/onthesnow/onthesnow-self-made-questions/static/js/main.5dfda36b.chunk.js.map",
+    "runtime-main.js": "/onthesnow/onthesnow-self-made-questions/static/js/runtime-main.7e29e8a3.js",
+    "runtime-main.js.map": "/onthesnow/onthesnow-self-made-questions/static/js/runtime-main.7e29e8a3.js.map",
+    "static/js/2.e697fe75.chunk.js": "/onthesnow/onthesnow-self-made-questions/static/js/2.e697fe75.chunk.js",
+    "static/js/2.e697fe75.chunk.js.map": "/onthesnow/onthesnow-self-made-questions/static/js/2.e697fe75.chunk.js.map",
+    "index.html": "/onthesnow/onthesnow-self-made-questions/index.html",
+    "precache-manifest.2f41d1c5be19cfe5c73d9b9b0650ed26.js": "/onthesnow/onthesnow-self-made-questions/precache-manifest.2f41d1c5be19cfe5c73d9b9b0650ed26.js",
+    "service-worker.js": "/onthesnow/onthesnow-self-made-questions/service-worker.js",
+    "static/css/main.c05fda78.chunk.css.map": "/onthesnow/onthesnow-self-made-questions/static/css/main.c05fda78.chunk.css.map",
+    "static/js/2.e697fe75.chunk.js.LICENSE.txt": "/onthesnow/onthesnow-self-made-questions/static/js/2.e697fe75.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7e29e8a3.js",
+    "static/js/2.e697fe75.chunk.js",
+    "static/css/main.c05fda78.chunk.css",
+    "static/js/main.5dfda36b.chunk.js"
+  ]
+}
