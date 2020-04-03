@@ -1,21 +1,67 @@
 import React from 'react';
+import firebase from "firebase";
 
 export default class List extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            json: []
+        };
+        this.getFireData();
+        this.handleJsonChange = this.handleJsonChange.bind(this);
+    }
+
+    getFireData(){
+        let db = firebase.database();
+        let ref = db.ref('contentslist');
+        let self = this;
+        ref.orderByKey().on('value',(snapshot)=>{
+            self.setState({
+                json:snapshot.val()
+            })
+        })
+    }
+
+    handleJsonChange(json) {
+        let li = this.state.json.slice();
+        li.push(json);
+        this.setState({ json: li })
+    }
+
     contentsList() {
-        const contentsList = this.props.json.map((contents, index) => {
-            return (
-                <ListContents key={contents.question} contents={contents} index={index} />
-            );
-        });
+        let contentsList = [];
+        let count = 0;
+        for(let i in this.state.json){
+            const contents = this.state.json[i]
+            contentsList.push(
+                <ListContents key={i} contents={contents} index={count++} />
+            )
+        }
         return contentsList;
     }
 
     render() {
+        if(this.state.json.length === 0){
+            this.getFireData();
+        }
+
         return (
             <div className="contentsList">
-                {this.contentsList()}
+                {this.state.json.length === 0 || this.state.json == null
+                    ? <p>データがありません</p> : this.contentsList()}
             </div>
         )
+    }
+
+    componentWillMount() {
+        // this.getJson();
+    }
+
+    getJson = () => {
+        const json = require("./contents.json");
+        this.setState({
+            json: json
+        });
     }
 }
 
@@ -53,7 +99,7 @@ class ListContents extends React.Component {
     choices(list) {
         const choiceList = list.map((choice, index) => {
             return (
-                <li key={index}>{choice.no}: {choice.choice}</li>
+                <li key={index}>{index+1}: {choice}</li>
             );
         });
         const choices = (
@@ -65,6 +111,17 @@ class ListContents extends React.Component {
         return choices
     }
 
+    comment(comments){
+        const commentList = comments.map((comment, index) => {
+            return(
+            <span key={index}>{index !== 0 && <br/>}{comment}</span>
+            )
+        });
+        return(
+            <span>{commentList}</span>
+        )
+    }
+
     answer(contents, index) {
         const flg = this.state.flg;
 
@@ -74,7 +131,7 @@ class ListContents extends React.Component {
                 {flg &&
                     <div className="commentary">
                         <p>答え： {contents.answer}</p>
-                        <p>解説：<br />{contents.comment}</p>
+                        <p>解説：<br />{this.comment(contents.comment)}</p>
                         <p>{contents.url}</p>
                     </div>
                 }
