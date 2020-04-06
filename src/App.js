@@ -2,10 +2,12 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import firebase from "firebase";
 
-import List from './List.js'
+import All from './All.js'
 import Control from './Control.js'
+import Selected from './Selected.js';
 
 import './App.css';
+
 
 const defaultPath = "/onthesnow-self-made-questions";
 
@@ -17,7 +19,8 @@ export default class App extends React.Component {
           <Header />
           <div>
             <Switch>
-              <Route path={defaultPath} exact component={List} />
+              <Route path={defaultPath} exact component={Selected} />
+              <Route path={defaultPath + "/all"} component={All} />
               <Route path={defaultPath + "/control"} component={Control} />
             </Switch>
           </div>
