@@ -8,7 +8,6 @@ import Selected from './Selected.js';
 
 import './App.css';
 
-
 const defaultPath = "/onthesnow-self-made-questions";
 
 export default class App extends React.Component {
@@ -17,7 +16,7 @@ export default class App extends React.Component {
       <div className="App">
         <BrowserRouter>
           <Header />
-          <div>
+          <div className="body">
             <Switch>
               <Route path={defaultPath} exact component={Selected} />
               <Route path={defaultPath + "/all"} component={All} />
@@ -36,15 +35,22 @@ class Header extends React.Component {
     return (
       <div className="header hero is-info is-bold">
         <div className="hero-body">
-          <div className="container">
-            <h1 className="title">自作問題集</h1>
+          <div className="container header">
+            <Link to={defaultPath}>
+              <h1 className="title">自作問題集</h1>
+            </Link>
+            <div>
+              <Link to={defaultPath + "/control"}>
+                <button className="button is-white">control</button>
+              </Link>
+              <Link to={defaultPath}>
+                <button className="button is-white">list</button>
+              </Link>
+              <Link to={defaultPath + "/all"}>
+                <button className="button is-white">all</button>
+              </Link>
+            </div>
           </div>
-          <Link to={defaultPath + "/control"}>
-            <button>control</button>
-          </Link>
-          <Link to={defaultPath}>
-            <button>list</button>
-          </Link>
         </div>
       </div>
     )

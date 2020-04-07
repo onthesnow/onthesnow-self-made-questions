@@ -24,17 +24,27 @@ export default class Selected extends React.Component {
         return contentsList;
     }
 
+    selectedHeader() {
+        return (
+            <div className="contentsHeader">
+                <div className="file is-info">
+                    <label className="file-label">
+                        <input className="file-input" type="file" name="file" onChange={this.getFile} />
+                        <span className="file-cta">
+                            <span className="file-label">
+                                ファイル選択
+                            </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div>
-                <div className="inputFile">
-                    <form onSubmit={this.getJson}>
-                        <label>
-                            Upload file:
-                            <input type="file" name="file" onChange={this.getFile} />
-                        </label>
-                    </form>
-                </div>
+                {this.selectedHeader()}
                 <div className="contentsList">
                     {this.state.json.length === 0 || this.state.json == null
                         ? <p></p> : this.contentsList()}
@@ -44,7 +54,7 @@ export default class Selected extends React.Component {
     }
 
     getFile(event) {
-        if(event.target.files.length ===0){
+        if (event.target.files.length === 0) {
             return;
         }
         var reader = new FileReader();
@@ -59,7 +69,7 @@ export default class Selected extends React.Component {
                     let elm = this.state.json.slice();
                     elm[id] = snapshot.val()[id];
                     this.setState({
-                        json:elm
+                        json: elm
                     })
                 })
             }
