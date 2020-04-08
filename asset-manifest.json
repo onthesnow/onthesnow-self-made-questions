@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/onthesnow-self-made-questions/static/css/main.2e126202.chunk.css",
-    "main.js": "/onthesnow-self-made-questions/static/js/main.263eafd1.chunk.js",
-    "main.js.map": "/onthesnow-self-made-questions/static/js/main.263eafd1.chunk.js.map",
+    "main.css": "/onthesnow-self-made-questions/static/css/main.fa783846.chunk.css",
+    "main.js": "/onthesnow-self-made-questions/static/js/main.c309cfaa.chunk.js",
+    "main.js.map": "/onthesnow-self-made-questions/static/js/main.c309cfaa.chunk.js.map",
     "runtime-main.js": "/onthesnow-self-made-questions/static/js/runtime-main.fccba4b7.js",
     "runtime-main.js.map": "/onthesnow-self-made-questions/static/js/runtime-main.fccba4b7.js.map",
-    "static/js/2.85396371.chunk.js": "/onthesnow-self-made-questions/static/js/2.85396371.chunk.js",
-    "static/js/2.85396371.chunk.js.map": "/onthesnow-self-made-questions/static/js/2.85396371.chunk.js.map",
+    "static/js/2.28176393.chunk.js": "/onthesnow-self-made-questions/static/js/2.28176393.chunk.js",
+    "static/js/2.28176393.chunk.js.map": "/onthesnow-self-made-questions/static/js/2.28176393.chunk.js.map",
     "index.html": "/onthesnow-self-made-questions/index.html",
-    "precache-manifest.34087baaf44f2ac5c071cdbb26285c0c.js": "/onthesnow-self-made-questions/precache-manifest.34087baaf44f2ac5c071cdbb26285c0c.js",
+    "precache-manifest.f3c38a94c51082c8e9af685e958c659b.js": "/onthesnow-self-made-questions/precache-manifest.f3c38a94c51082c8e9af685e958c659b.js",
     "service-worker.js": "/onthesnow-self-made-questions/service-worker.js",
-    "static/css/main.2e126202.chunk.css.map": "/onthesnow-self-made-questions/static/css/main.2e126202.chunk.css.map",
-    "static/js/2.85396371.chunk.js.LICENSE.txt": "/onthesnow-self-made-questions/static/js/2.85396371.chunk.js.LICENSE.txt"
+    "static/css/main.fa783846.chunk.css.map": "/onthesnow-self-made-questions/static/css/main.fa783846.chunk.css.map",
+    "static/js/2.28176393.chunk.js.LICENSE.txt": "/onthesnow-self-made-questions/static/js/2.28176393.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.fccba4b7.js",
-    "static/js/2.85396371.chunk.js",
-    "static/css/main.2e126202.chunk.css",
-    "static/js/main.263eafd1.chunk.js"
+    "static/js/2.28176393.chunk.js",
+    "static/css/main.fa783846.chunk.css",
+    "static/js/main.c309cfaa.chunk.js"
   ]
 }
