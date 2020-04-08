@@ -7,18 +7,18 @@ export default class Edit extends React.Component {
         super(props)
         this.choicesChengeHandler = this.choicesChengeHandler.bind(this);
         this.deleteChoiceHandler = this.deleteChoiceHandler.bind(this);
-        this.handleChange = this.handleChange.bind(this);
         this.addFireData = this.addFireData.bind(this);
         this.editFireData = this.editFireData.bind(this);
         this.state = {
-            id: -1,
             unit: "Java",
             question: "",
+            code: [],
             choices: ["", "", "", "", ""],
             answer: 1,
             comment: [],
             url: "",
-            json: []
+            json: [],
+            editFlg: "false"
         }
     }
 
@@ -26,15 +26,6 @@ export default class Edit extends React.Component {
         let choices = this.state.choices.slice();
         choices[index] = choice;
         this.setState({ choices })
-    }
-
-    handleChange = (event) => {
-        this.setState({
-            unit: event.target.unit,
-            question: event.target.question,
-            answer: event.target.answer,
-            comment: event.target.answer
-        })
     }
 
     addChoices() {
@@ -64,10 +55,29 @@ export default class Edit extends React.Component {
         );
     }
 
+    codehandleChange(e) {
+        const rawText = e.target.value;
+        const rawTextList = rawText.split('\n');
+        let inputTextList = rawTextList.map((text) => {
+            return (
+                text.replace(/[\d]+\s\|\t/, "")
+            )
+        })
+        let code = "";
+        for(let i=0;i<inputTextList.length;i++){
+            code += ('000' + (i+1)).slice(-3) + ' |\t' + inputTextList[i];
+            if(i !== inputTextList.length-1){
+                code += '\n';
+            }
+        }
+        this.setState({ code })
+    }
+
     clear() {
         this.setState({
             unit: "Java",
             question: "",
+            code: [],
             choices: ["", "", "", "", ""],
             answer: 1,
             comment: [],
@@ -78,20 +88,21 @@ export default class Edit extends React.Component {
 
     // データ追加処理
     addFireData() {
-        let id = new Date().getTime();
         let db = firebase.database();
         let ref = db.ref("contentslist");
         let comment = this.state.comment;
         ref.push({
-            id: id,
             unit: this.state.unit || '',
             question: this.state.question || '',
+            code: this.state.code || '',
             choices: this.state.choices || '',
             answer: this.state.answer || '',
             comment: comment.split('\n') || '',
             url: this.state.url || ''
         })
         this.clear();
+        this.props.close();
+        alert("問題を追加しました")
     }
 
     // データ編集処理
@@ -103,11 +114,14 @@ export default class Edit extends React.Component {
         ref.set({
             unit: this.state.unit || '',
             question: this.state.question || '',
+            code: this.state.code || '',
             choices: this.state.choices || '',
             answer: this.state.answer || '',
             comment: comment.split('\n') || '',
             url: this.state.url || ''
         })
+        this.props.close();
+        alert("問題を編集しました")
     }
 
     // データ削除
@@ -116,6 +130,8 @@ export default class Edit extends React.Component {
         let db = firebase.database();
         let ref = db.ref("contentslist/" + id);
         ref.remove();
+        this.props.close();
+        alert("問題を削除しました")
     }
 
     editCansel() {
@@ -166,10 +182,17 @@ export default class Edit extends React.Component {
                                 </th>
                             </tr>
                             <tr>
-                                <th className="questionLabel">問題文</th>
+                                <th className="questionLabel">問題文<br /><small>(改行不可)</small></th>
                                 <th>
                                     <textarea className="textarea" name="question" value={this.state.question}
                                         onChange={(e) => this.setState({ question: e.target.value.replace(/\r?\n/g, "") })} />
+                                </th>
+                            </tr>
+                            <tr>
+                                <th className="questionLabel">コード<br /><small>(*1)</small></th>
+                                <th>
+                                    <textarea className="textarea" name="code" value={this.state.code}
+                                        onChange={(e) => this.codehandleChange(e)} />
                                 </th>
                             </tr>
                             {this.state.choices.map((choice, index) => (
@@ -205,25 +228,55 @@ export default class Edit extends React.Component {
         )
     }
 
-    componentDidMount() {
-        if (this.props.id === "-1") {
-            return;
+    static getDerivedStateFromProps(props, state) {
+        if(!props.modalOpen){
+            return({
+                id: "-1",
+                unit: "Java",
+                question: "",
+                code: [],
+                choices: ["", "", "", "", ""],
+                answer: 1,
+                comment: [],
+                url: "",
+                editFlg:false
+            })
+        }else if(props.modalOpen && state.editFlg){
+            return(null)
         }
-        this.setState({
-            id: this.props.contents.id,
-            unit: this.props.contents.unit,
-            question: this.props.contents.question,
-            choices: this.props.contents.choices,
-            answer: this.props.contents.answer,
-            comment: this.props.contents.comment.join('\n'),
-            url: this.props.contents.url
-        })
+
+        if (props.id === "-1") {
+            return({
+                id: "-1",
+                unit: "Java",
+                question: "",
+                code: [],
+                choices: ["", "", "", "", ""],
+                answer: 1,
+                comment: [],
+                url: "",
+                editFlg:true
+            })
+        } else {
+            return({
+                id: props.contents.id,
+                unit: props.contents.unit,
+                question: props.contents.question,
+                code: props.contents.code,
+                choices: props.contents.choices,
+                answer: props.contents.answer,
+                comment: props.contents.comment.join('\n'),
+                url: props.contents.url,
+                editFlg:true
+            })
+        }
     }
 }
 
 Edit.defaultProps = {
     id: "-1",
-    contents: {}
+    contents: '',
+    editFlg: false
 }
 
 class Choices extends React.Component {

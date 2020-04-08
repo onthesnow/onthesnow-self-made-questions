@@ -24,13 +24,21 @@ export default class ControlList extends React.Component {
 
     render() {
         return (
-            <div className="contents content" id={this.props.index}>
-                <input type="checkbox" checked={this.state.checked}
-                    onChange={() => this.changeCheckbox()} />
-                {this.question(this.props.contents, this.props.index)}
-                {this.choices(this.props.contents.choices)}
-                {this.answer(this.props.contents, this.props.index)}
-                <button className="button is-info" onClick={() => { this.editQuestion() }}>編集</button>
+            <div className="contents controlContents" id={this.props.index}>
+                <div className="controlCOntents_2">
+                    <div>
+                        <input type="checkbox" checked={this.state.checked}
+                            onChange={() => this.changeCheckbox()} />
+                    </div>
+                    <div>
+                        {this.question(this.props.contents, this.props.index)}
+                        {this.choices(this.props.contents.choices)}
+                        {this.answer(this.props.contents, this.props.index)}
+                    </div>
+                </div>
+                <div>
+                    <button className="button is-info" onClick={() => { this.editQuestion() }}>編集</button>
+                </div>
             </div>
         )
     }
@@ -40,6 +48,11 @@ export default class ControlList extends React.Component {
             <div className="question">
                 <p><strong>問題ID:{index} ({contents.unit})</strong></p>
                 <p>{contents.question}</p>
+                {contents.code === "" || contents.code === undefined || contents.code === null ? <span></span>:
+                    <div className="codebox">
+                        <p>{contents.code}</p>
+                    </div>
+                }
             </div>
         )
         return question;
@@ -67,7 +80,7 @@ export default class ControlList extends React.Component {
             )
         });
         return (
-            <span>{commentList}</span>
+            <div className="commentList">{commentList}</div>
         )
     }
 

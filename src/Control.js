@@ -2,6 +2,7 @@ import React from 'react';
 import firebase from "firebase/app";
 import "firebase/storage";
 import Modal from 'react-modal';
+import ClassNames from 'classnames';
 
 import Edit from "./Edit.js";
 import ControlList from "./ControlList.js";
@@ -155,51 +156,29 @@ class ControlQuestion extends React.Component {
             this.getFireData();
         }
 
+        const modal = ClassNames({
+            'modal' : true,
+            'is-active' : this.state.modalIsOpen
+        })
+
         return (
-            <div> {this.controlHeader()}
+            <div>
+                {this.controlHeader()}
                 <div className="contentsList" >
                     {
                         this.state.json.length === 0 || this.state.json == null ?
                             <p> データがありません </p> : this.contentsList()
                     }
                 </div>
-                <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeModal.bind(this)}
-                    style={modalStyles}
-                    contentLabel="edit question" >
-                    <span className="delete" onClick={this.closeModal}> </span>
-                    <Edit id={this.state.editId}
-                        contents={this.state.editContents} />
-                </Modal>
+                <div className={modal} id={this.state.editId}>
+                    <div className="modal-background"></div>
+                    <div className="modal-content">
+                        <span className="delete is-large" onClick={this.closeModal}> </span>
+                        <Edit id={this.state.editId}
+                            contents={this.state.editContents} modalOpen={this.state.modalIsOpen} close={this.closeModal}/>
+                    </div>
+                </div>
             </div>
         )
     }
 }
-
-const modalStyles = {
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.75)'
-    },
-    content: {
-        position: 'absolute',
-        height: '900px',
-        top: '40px',
-        left: '40px',
-        right: '40px',
-        bottom: '40px',
-        border: '1px solid #ccc',
-        background: '#c1e4e9',
-        overflow: 'auto',
-        WebkitOverflowScrolling: 'touch',
-        borderRadius: '4px',
-        outline: 'none',
-        padding: '20px',
-        zIndex: '-1'
-    }
-};

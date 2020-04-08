@@ -23,6 +23,11 @@ export default class ListContents extends React.Component {
             <div className="question">
                 <p><strong>問題{index + 1} ({contents.unit})</strong></p>
                 <p>{contents.question}</p>
+                {contents.code === "" || contents.code === undefined || contents.code === null ? <span></span>:
+                    <div className="codebox">
+                        <p>{contents.code}</p>
+                    </div>
+                }
             </div>
         )
         return question;
@@ -50,7 +55,7 @@ export default class ListContents extends React.Component {
             )
         });
         return(
-            <span>{commentList}</span>
+            <div className="commentList">{commentList}</div>
         )
     }
 

@@ -55,3 +55,43 @@ button {
     width: 500px;
     height: 70px;
 }
+
+.modal-content{
+    width: 960px;
+    padding: 20px;
+    background-color: #c1e4e9;
+}
+
+.controlContents{
+    display: flex;
+    justify-content: space-between;
+}
+
+.controlCOntents_2{
+    display: flex;
+}
+
+.controlCOntents > *:not(:first-child),
+.controlCOntents_2 > *:not(:first-child){
+    padding: 0px 50px;
+}
+
+.vcenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.codebox{
+    white-space: pre-wrap;
+    word-wrap:break-word;
+    background-color: #EEEEEE;
+    padding: 15px;
+    margin:10px 0px;
+    font-size: 13px;
+    border:solid 0.5px #888;
+}
+
+.commentList{
+    padding-left: 20px;
+}
