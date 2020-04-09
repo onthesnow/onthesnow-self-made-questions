@@ -5,7 +5,8 @@ export default class ControlList extends React.Component {
         super(props);
         this.changeCheckbox = this.changeCheckbox.bind(this);
         this.state = ({
-            checked: this.props.isOutput
+            checked: this.props.isOutput,
+            questionIsOpen: false
         })
     }
 
@@ -31,9 +32,14 @@ export default class ControlList extends React.Component {
                             onChange={() => this.changeCheckbox()} />
                     </div>
                     <div>
-                        {this.question(this.props.contents, this.props.index)}
-                        {this.choices(this.props.contents.choices)}
-                        {this.answer(this.props.contents, this.props.index)}
+                        {this.summery(this.props.contents, this.props.index)}
+                        {this.state.questionIsOpen &&
+                            <div>
+                                {this.question(this.props.contents)}
+                                {this.choices(this.props.contents.choices)}
+                                {this.answer(this.props.contents, this.props.index)}
+                            </div>
+                        }
                     </div>
                 </div>
                 <div>
@@ -43,10 +49,32 @@ export default class ControlList extends React.Component {
         )
     }
 
-    question(contents, index) {
+    summery(contents, index) {
+        const style = {
+            paddingTop : "3px"
+        }
+        const summery = (
+            <div className="summary">
+                <div className="questionOpenButton vcenter" onClick={() => { this.setState({ questionIsOpen: !this.state.questionIsOpen }) }}>
+                    <span className="icon">
+                        {this.state.questionIsOpen
+                            ? <i className="fas fa-minus-square fa-lg"></i>
+                            : <i className="fas fa-plus-square fa-lg"></i>
+                        }
+                    </span>
+                </div>
+                <div>
+                    <p><strong>問題ID :{index} ({contents.unit}：{contents.difficulty})<br />
+                        <span style={style}>概要： {contents.summary}</span></strong></p>
+                </div>
+            </div>
+        )
+        return summery;
+    }
+
+    question(contents) {
         const question = (
             <div className="question">
-                <p><strong>問題ID:{index} ({contents.unit}：{contents.difficulty})</strong></p>
                 <p>{contents.question}</p>
                 {contents.code === "" || contents.code === undefined || contents.code === null ? <span></span> :
                     <div className="codebox">

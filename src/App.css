@@ -109,3 +109,13 @@ button {
 .searchItems p{
     margin: 0px 4px
 }
+
+.summary{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.questionOpenButton{
+    margin-right: 10px;
+    cursor: pointer;
+}

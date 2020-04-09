@@ -12,6 +12,7 @@ export default class Edit extends React.Component {
         this.state = {
             unit: "Java",
             difficulty: "入門",
+            summary: "",
             question: "",
             code: [],
             choices: ["", "", "", "", ""],
@@ -93,6 +94,14 @@ export default class Edit extends React.Component {
             alert("単元を選択してください");
             return false;
         }
+        if (this.state.difficulty === "") {
+            alert("難易度を選択してください");
+            return false;
+        }
+        if (this.state.summary === "") {
+            alert("問題概要を入力してください");
+            return false;
+        }
         if (this.state.question === "") {
             alert("問題文を入力してください");
             return false;
@@ -124,15 +133,15 @@ export default class Edit extends React.Component {
         if (!this.inputCheck()) { return; }
         let db = firebase.database();
         let ref = db.ref("contentslist");
-        let comment = this.state.comment;
         ref.push({
             unit: this.state.unit || '',
             difficulty: this.state.difficulty || '',
+            summary: this.state.summary || '',
             question: this.state.question || '',
             code: this.state.code || '',
             choices: this.state.choices || '',
             answer: this.state.answer || '',
-            comment: comment || '',
+            comment: this.state.comment || '',
             url: this.state.url || ''
         })
         this.clear();
@@ -149,15 +158,15 @@ export default class Edit extends React.Component {
         }
         let db = firebase.database();
         let ref = db.ref("contentslist/" + id);
-        let comment = this.state.comment;
         ref.set({
             unit: this.state.unit || '',
             difficulty: this.state.difficulty || '',
+            summary: this.state.summary || '',
             question: this.state.question || '',
             code: this.state.code || '',
             choices: this.state.choices || '',
             answer: this.state.answer || '',
-            comment: comment || '',
+            comment: this.state.comment || '',
             url: this.state.url || ''
         })
         this.props.close();
@@ -249,6 +258,13 @@ export default class Edit extends React.Component {
                                 </th>
                             </tr>
                             <tr>
+                                <th className="questionLabel">問題概要</th>
+                                <th>
+                                    <input className="input" type="text" name="summary" value={this.state.summary}
+                                        onChange={(e) => this.setState({ summary: e.target.value })} />
+                                </th>
+                            </tr>
+                            <tr>
                                 <th className="questionLabel">問題文<br /><small>(改行不可)</small></th>
                                 <th>
                                     <textarea className="textarea" name="question" value={this.state.question}
@@ -302,6 +318,7 @@ export default class Edit extends React.Component {
                 id: "-1",
                 unit: "Java",
                 difficulty: "入門",
+                summary: "",
                 question: "",
                 code: [],
                 choices: ["", "", "", "", ""],
@@ -319,6 +336,7 @@ export default class Edit extends React.Component {
                 id: "-1",
                 unit: "Java",
                 difficulty: "入門",
+                summary: "",
                 question: "",
                 code: [],
                 choices: ["", "", "", "", ""],
@@ -332,6 +350,7 @@ export default class Edit extends React.Component {
                 id: props.contents.id,
                 unit: props.contents.unit,
                 difficulty: props.contents.difficulty,
+                summary: props.contents.summary,
                 question: props.contents.question,
                 code: props.contents.code,
                 choices: props.contents.choices,
