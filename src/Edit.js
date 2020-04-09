@@ -11,6 +11,7 @@ export default class Edit extends React.Component {
         this.editFireData = this.editFireData.bind(this);
         this.state = {
             unit: "Java",
+            difficulty: "入門",
             question: "",
             code: [],
             choices: ["", "", "", "", ""],
@@ -64,9 +65,9 @@ export default class Edit extends React.Component {
             )
         })
         let code = "";
-        for(let i=0;i<inputTextList.length;i++){
-            code += ('000' + (i+1)).slice(-3) + ' |\t' + inputTextList[i];
-            if(i !== inputTextList.length-1){
+        for (let i = 0; i < inputTextList.length; i++) {
+            code += ('000' + (i + 1)).slice(-3) + ' |\t' + inputTextList[i];
+            if (i !== inputTextList.length - 1) {
                 code += '\n';
             }
         }
@@ -87,30 +88,30 @@ export default class Edit extends React.Component {
     }
 
     // 項目の入力チェックを行う。不可の場合アラートを出してfalseを返す
-    inputCheck(){
-        if(this.state.unit === ""){
+    inputCheck() {
+        if (this.state.unit === "") {
             alert("単元を選択してください");
             return false;
         }
-        if(this.state.question === ""){
+        if (this.state.question === "") {
             alert("問題文を入力してください");
             return false;
         }
-        if(this.state.choices.length <= 1){
+        if (this.state.choices.length <= 1) {
             alert("二つ以上の選択肢を使用してください");
             return false;
         }
-        for(let i=0;i<this.state.choices.length;i++){
-            if(this.state.choices[i] === ""){
+        for (let i = 0; i < this.state.choices.length; i++) {
+            if (this.state.choices[i] === "") {
                 alert("未入力の選択肢があります")
                 return false;
             }
         }
-        if(this.state.answer === ""){
+        if (this.state.answer === "") {
             alert("答えを選択してください");
             return false;
         }
-        if(this.state.comment === ""){
+        if (this.state.comment === "") {
             alert("解説を入力して下さい");
             return false;
         }
@@ -120,17 +121,18 @@ export default class Edit extends React.Component {
 
     // データ追加処理
     addFireData() {
-        if(!this.inputCheck()){ return; }
+        if (!this.inputCheck()) { return; }
         let db = firebase.database();
         let ref = db.ref("contentslist");
         let comment = this.state.comment;
         ref.push({
             unit: this.state.unit || '',
+            difficulty: this.state.difficulty || '',
             question: this.state.question || '',
             code: this.state.code || '',
             choices: this.state.choices || '',
             answer: this.state.answer || '',
-            comment: comment.split('\n') || '',
+            comment: comment || '',
             url: this.state.url || ''
         })
         this.clear();
@@ -140,9 +142,9 @@ export default class Edit extends React.Component {
 
     // データ編集処理
     editFireData() {
-        if(!this.inputCheck()){ return; }
+        if (!this.inputCheck()) { return; }
         const id = this.props.id;
-        if(!window.confirm("問題ID：" + id + "を編集しますか？")){
+        if (!window.confirm("問題ID：" + id + "を編集しますか？")) {
             return;
         }
         let db = firebase.database();
@@ -150,11 +152,12 @@ export default class Edit extends React.Component {
         let comment = this.state.comment;
         ref.set({
             unit: this.state.unit || '',
+            difficulty: this.state.difficulty || '',
             question: this.state.question || '',
             code: this.state.code || '',
             choices: this.state.choices || '',
             answer: this.state.answer || '',
-            comment: comment.split('\n') || '',
+            comment: comment || '',
             url: this.state.url || ''
         })
         this.props.close();
@@ -164,12 +167,22 @@ export default class Edit extends React.Component {
     // データ削除
     deleteQuestion() {
         const id = this.props.id;
-        if(!window.confirm("問題ID：" + id + "を削除しますか？")){
+        if (!window.confirm("問題ID：" + id + "を削除しますか？")) {
             return;
         }
         let db = firebase.database();
         let ref = db.ref("contentslist/" + id);
-        ref.remove();
+        ref.set({
+            unit: this.props.contents.unit || '',
+            difficulty: this.props.contents.difficulty || '',
+            question: this.props.contents.question || '',
+            code: this.props.contents.code || '',
+            choices: this.props.contents.choices || '',
+            answer: this.props.contents.answer || '',
+            comment:  this.props.contents.comment || '',
+            url: this.props.contents.url || '',
+            delflg: true
+        });
         this.props.close();
         alert("問題を削除しました")
     }
@@ -181,7 +194,7 @@ export default class Edit extends React.Component {
     // ヘッダー
     editHeader() {
         return (
-            <div className="contentsHeader">
+            <div className="contentsHeader sideBySide">
                 <div className="editButton">
                     <button className="button is-info" onClick={() => { this.addChoices() }}>選択肢を増やす</button>
                     <button className="button is-info" onClick={() => { this.clear() }}>クリア</button>
@@ -217,6 +230,20 @@ export default class Edit extends React.Component {
                                             <option value="Java">Java</option>
                                             <option value="Oracle">Oracle</option>
                                             <option value="HTML/CSS">HTML/CSS</option>
+                                            <option value="IT基礎" > IT基礎 </option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th className="questionLabel">難易度</th>
+                                <th>
+                                    <div className="select">
+                                        <select name="difficulty" value={this.state.difficulty} onChange={(e) => this.setState({ difficulty: e.target.value })} >
+                                            <option value="入門" > 入門 </option>
+                                            <option value="初級" > 初級 </option>
+                                            <option value="中級" > 中級 </option>
+                                            <option value="上級" > 上級 </option>
                                         </select>
                                     </div>
                                 </th>
@@ -270,45 +297,48 @@ export default class Edit extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if(!props.modalOpen){
-            return({
+        if (!props.modalOpen) {
+            return ({
                 id: "-1",
                 unit: "Java",
+                difficulty: "入門",
                 question: "",
                 code: [],
                 choices: ["", "", "", "", ""],
                 answer: 1,
                 comment: [],
                 url: "",
-                editFlg:false
+                editFlg: false
             })
-        }else if(props.modalOpen && state.editFlg){
-            return(null)
+        } else if (props.modalOpen && state.editFlg) {
+            return (null)
         }
 
         if (props.id === "-1") {
-            return({
+            return ({
                 id: "-1",
                 unit: "Java",
+                difficulty: "入門",
                 question: "",
                 code: [],
                 choices: ["", "", "", "", ""],
                 answer: 1,
                 comment: [],
                 url: "",
-                editFlg:true
+                editFlg: true
             })
         } else {
-            return({
+            return ({
                 id: props.contents.id,
                 unit: props.contents.unit,
+                difficulty: props.contents.difficulty,
                 question: props.contents.question,
                 code: props.contents.code,
                 choices: props.contents.choices,
                 answer: props.contents.answer,
-                comment: props.contents.comment.join('\n'),
+                comment: props.contents.comment,
                 url: props.contents.url,
-                editFlg:true
+                editFlg: true
             })
         }
     }

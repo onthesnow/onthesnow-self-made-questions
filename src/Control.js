@@ -6,6 +6,7 @@ import ClassNames from 'classnames';
 
 import Edit from "./Edit.js";
 import ControlList from "./ControlList.js";
+import Help from "./Help.js";
 
 Modal.setAppElement('#root')
 
@@ -33,9 +34,11 @@ class ControlQuestion extends React.Component {
             json: [],
             outputList: [],
             unit: "All",
+            difficulty:"All",
             editId: "-1",
             editContents: {},
-            modalIsOpen: false
+            modalIsOpen: false,
+            helpIsOpen: false
         };
         this.getFireData();
     }
@@ -153,8 +156,16 @@ class ControlQuestion extends React.Component {
 
     // 検索結果取得 in：contents 合致：true 不一致：false
     searchData(contents) {
+        if(contents.delflg){
+            return false
+        }
         if (this.state.unit !== "All") {
             if (contents.unit !== this.state.unit) {
+                return false
+            }
+        }
+        if (this.state.difficulty !== "All") {
+            if (contents.difficulty !== this.state.difficulty) {
                 return false
             }
         }
@@ -165,13 +176,29 @@ class ControlQuestion extends React.Component {
     // 検索機能表示
     searchControler() {
         return (
-            <div>
+            <div className="sideBySide searchItems">
+                <div className="vcenter">
+                    <p>単元：</p>
+                </div>
                 <div className="select">
                     <select name="unit" value={this.state.unit} onChange={(e) => this.setState({ unit: e.target.value })} >
                         <option value="All" > All </option>
                         <option value="Java" > Java </option>
                         <option value="Oracle" > Oracle </option>
                         <option value="HTML/CSS" > HTML / CSS </option>
+                        <option value="IT基礎" > IT基礎 </option>
+                    </select>
+                </div>
+                <div className="vcenter">
+                    <p>難易度：</p>
+                </div>
+                <div className="select">
+                    <select name="difficulty" value={this.state.difficulty} onChange={(e) => this.setState({ difficulty: e.target.value })} >
+                        <option value="All" > All </option>
+                        <option value="入門" > 入門 </option>
+                        <option value="初級" > 初級 </option>
+                        <option value="中級" > 中級 </option>
+                        <option value="上級" > 上級 </option>
                     </select>
                 </div>
             </div>
@@ -182,14 +209,23 @@ class ControlQuestion extends React.Component {
     controlHeader() {
         return (
             <div className="contentsHeader">
-                <div>
-                    {this.searchControler()}
+                <div className="controlHeaderItems sideBySide">
+                    <div>
+                        {this.searchControler()}
+                    </div>
+                    <div>
+                        <button className="button is-info" onClick={() => { this.editContentsHandler("-1") }}>新しい問題</button>
+                        <button className="button is-info" onClick={() => { this.outputJsonFile() }}>問題を出力する</button>
+                    </div>
                 </div>
-                <div>
-                    <button className="button is-info" onClick={() => { this.searchedListCheck() }}>一括チェック</button>
-                    <button className="button is-info" onClick={() => { this.allCheckRemove() }}>一括解除</button>
-                    <button className="button is-info" onClick={() => { this.editContentsHandler("-1") }}>新しい問題</button>
-                    <button className="button is-info" onClick={() => { this.outputJsonFile() }}>問題を出力する</button>
+                <div className="controlHeaderItems sideBySide">
+                    <div>
+                        <button className="button is-info" onClick={() => { this.searchedListCheck() }}>一括チェック</button>
+                        <button className="button is-info" onClick={() => { this.allCheckRemove() }}>一括解除</button>
+                    </div>
+                    <div>
+                        <button className="button is-info" onClick={() => {this.setState({helpIsOpen:true})}}>使い方</button>
+                    </div>
                 </div>
             </div>
         )
@@ -203,6 +239,11 @@ class ControlQuestion extends React.Component {
         const modal = ClassNames({
             'modal': true,
             'is-active': this.state.modalIsOpen
+        })
+
+        const help = ClassNames({
+            'modal': true,
+            'is-active': this.state.helpIsOpen
         })
 
         return (
@@ -220,6 +261,13 @@ class ControlQuestion extends React.Component {
                         <span className="delete is-large" onClick={this.closeModal}> </span>
                         <Edit id={this.state.editId}
                             contents={this.state.editContents} modalOpen={this.state.modalIsOpen} close={this.closeModal} />
+                    </div>
+                </div>
+                <div className={help}>
+                    <div className="modal-background"></div>
+                    <div className="modal-content">
+                        <span className="delete is-large" onClick={() => {this.setState({helpIsOpen:false})}}> </span>
+                        <Help />
                     </div>
                 </div>
             </div>

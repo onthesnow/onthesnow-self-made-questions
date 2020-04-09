@@ -49,13 +49,10 @@ export default class ListContents extends React.Component {
     }
 
     comment(comments){
-        const commentList = comments.map((comment, index) => {
-            return(
-            <span key={index}>{index !== 0 && <br/>}{comment}</span>
-            )
-        });
-        return(
-            <div className="commentList">{commentList}</div>
+        return (
+            <div>解説：<br />
+                <p className="commentList">{comments}</p>
+            </div>
         )
     }
 
@@ -68,7 +65,7 @@ export default class ListContents extends React.Component {
                 {flg &&
                     <div className="commentary">
                         <p>答え： {contents.answer}</p>
-                        <p>解説：<br />{this.comment(contents.comment)}</p>
+                        {this.comment(contents.comment)}
                         <p>参考： {contents.url}</p>
                     </div>
                 }

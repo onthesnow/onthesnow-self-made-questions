@@ -34,8 +34,15 @@
     padding: 20px 30px;
     margin: 30px;
     background-color: aliceblue;
+}
+
+.sideBySide {
     display: flex;
     justify-content: space-between;
+}
+
+.controlHeaderItems {
+    margin: 5px 0px;
 }
 
 button {
@@ -93,5 +100,12 @@ button {
 }
 
 .commentList{
+    white-space: pre-wrap;
+    word-wrap:break-word;
     padding-left: 20px;
+    padding-bottom: 1em;
+}
+
+.searchItems p{
+    margin: 0px 4px
 }

@@ -24,7 +24,7 @@ export default class ControlList extends React.Component {
 
     render() {
         return (
-            <div className="contents controlContents" id={this.props.index}>
+            <div className="contents controlContents content" id={this.props.index}>
                 <div className="controlCOntents_2">
                     <div>
                         <input type="checkbox" checked={this.state.checked}
@@ -46,9 +46,9 @@ export default class ControlList extends React.Component {
     question(contents, index) {
         const question = (
             <div className="question">
-                <p><strong>問題ID:{index} ({contents.unit})</strong></p>
+                <p><strong>問題ID:{index} ({contents.unit}：{contents.difficulty})</strong></p>
                 <p>{contents.question}</p>
-                {contents.code === "" || contents.code === undefined || contents.code === null ? <span></span>:
+                {contents.code === "" || contents.code === undefined || contents.code === null ? <span></span> :
                     <div className="codebox">
                         <p>{contents.code}</p>
                     </div>
@@ -74,13 +74,10 @@ export default class ControlList extends React.Component {
     }
 
     comment(comments) {
-        const commentList = comments.map((comment, index) => {
-            return (
-                <span key={index}>{index !== 0 && <br />}{comment}</span>
-            )
-        });
         return (
-            <div className="commentList">{commentList}</div>
+            <div>解説：<br />
+                <p className="commentList">{comments}</p>
+            </div>
         )
     }
 
@@ -89,7 +86,7 @@ export default class ControlList extends React.Component {
             <div className="answer">
                 <div className="commentary">
                     <p>答え： {contents.answer}</p>
-                    <p>解説：<br />{this.comment(contents.comment)}</p>
+                    {this.comment(contents.comment)}
                     <p>参考： {contents.url}</p>
                 </div>
             </div>
@@ -98,7 +95,7 @@ export default class ControlList extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        return({
+        return ({
             checked: props.isOutput
         })
     }

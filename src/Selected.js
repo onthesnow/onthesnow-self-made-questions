@@ -26,7 +26,7 @@ export default class Selected extends React.Component {
 
     selectedHeader() {
         return (
-            <div className="contentsHeader">
+            <div className="contentsHeader sideBySide">
                 <div className="file is-info">
                     <label className="file-label">
                         <input className="file-input" type="file" name="file" onChange={this.getFile} />
