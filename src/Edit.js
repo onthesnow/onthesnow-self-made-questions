@@ -86,8 +86,41 @@ export default class Edit extends React.Component {
         })
     }
 
+    // 項目の入力チェックを行う。不可の場合アラートを出してfalseを返す
+    inputCheck(){
+        if(this.state.unit === ""){
+            alert("単元を選択してください");
+            return false;
+        }
+        if(this.state.question === ""){
+            alert("問題文を入力してください");
+            return false;
+        }
+        if(this.state.choices.length <= 1){
+            alert("二つ以上の選択肢を使用してください");
+            return false;
+        }
+        for(let i=0;i<this.state.choices.length;i++){
+            if(this.state.choices[i] === ""){
+                alert("未入力の選択肢があります")
+                return false;
+            }
+        }
+        if(this.state.answer === ""){
+            alert("答えを選択してください");
+            return false;
+        }
+        if(this.state.comment === ""){
+            alert("解説を入力して下さい");
+            return false;
+        }
+
+        return true
+    }
+
     // データ追加処理
     addFireData() {
+        if(!this.inputCheck()){ return; }
         let db = firebase.database();
         let ref = db.ref("contentslist");
         let comment = this.state.comment;
@@ -107,7 +140,11 @@ export default class Edit extends React.Component {
 
     // データ編集処理
     editFireData() {
+        if(!this.inputCheck()){ return; }
         const id = this.props.id;
+        if(!window.confirm("問題ID：" + id + "を編集しますか？")){
+            return;
+        }
         let db = firebase.database();
         let ref = db.ref("contentslist/" + id);
         let comment = this.state.comment;
@@ -127,6 +164,9 @@ export default class Edit extends React.Component {
     // データ削除
     deleteQuestion() {
         const id = this.props.id;
+        if(!window.confirm("問題ID：" + id + "を削除しますか？")){
+            return;
+        }
         let db = firebase.database();
         let ref = db.ref("contentslist/" + id);
         ref.remove();
@@ -215,7 +255,7 @@ export default class Edit extends React.Component {
                                 </th>
                             </tr>
                             <tr>
-                                <th className="questionLabel">URL</th>
+                                <th className="questionLabel">参考</th>
                                 <th>
                                     <input className="input" type="text" name="url" value={this.state.url}
                                         onChange={(e) => this.setState({ url: e.target.value })} />
@@ -223,6 +263,7 @@ export default class Edit extends React.Component {
                             </tr>
                         </tbody>
                     </table>
+                    <p><small>(*1) 可能な限りテキストエディタ等で書いたものを貼り付けてください</small></p>
                 </div>
             </div>
         )

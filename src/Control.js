@@ -27,6 +27,8 @@ class ControlQuestion extends React.Component {
         this.searchControler = this.searchControler.bind(this);
         this.editContentsHandler = this.editContentsHandler.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.searchedListCheck = this.searchedListCheck.bind(this);
+        this.allCheckRemove = this.allCheckRemove.bind(this);
         this.state = {
             json: [],
             outputList: [],
@@ -53,11 +55,12 @@ class ControlQuestion extends React.Component {
         let contentsList = [];
         for (let i in this.state.json) {
             const contents = this.state.json[i]
-            if (this.state.unit === "All" || contents.unit === this.state.unit) {
+            if (this.searchData(contents)) {
                 contentsList.push(
                     <ControlList key={i}
                         contents={contents}
                         index={i}
+                        isOutput={this.state.outputList.includes(i)}
                         outputListControl={this.outputListControler}
                         returnId={this.editContentsHandler} />
                 )
@@ -103,7 +106,6 @@ class ControlQuestion extends React.Component {
 
     // 出力リスト制御
     outputListControler(id, checked) {
-        console.log(id + " : " + checked)
         let list = this.state.outputList.slice();
         if (checked) {
             list.push(id);
@@ -120,12 +122,52 @@ class ControlQuestion extends React.Component {
         })
     }
 
-    // 検索機能
+    // 一括チェック
+    searchedListCheck() {
+        let list = this.state.outputList.slice();
+        for (let id in this.state.json) {
+            if (!list.includes(id)) {
+                list.push(id)
+            }
+        }
+        this.setState({
+            outputList: list
+        })
+    }
+
+    // 一括チェック外し
+    allCheckRemove() {
+        let list = this.state.outputList.slice();
+        for (let id in this.state.json) {
+            const index = list.indexOf(id)
+            if (index !== -1) {
+                list = [...list.slice(0, index), ...list.slice(index + 1)]
+            } else {
+                return;
+            }
+        }
+        this.setState({
+            outputList: list
+        })
+    }
+
+    // 検索結果取得 in：contents 合致：true 不一致：false
+    searchData(contents) {
+        if (this.state.unit !== "All") {
+            if (contents.unit !== this.state.unit) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    // 検索機能表示
     searchControler() {
         return (
             <div>
                 <div className="select">
-                    <select name="unit" value={this.state.unit} onChange={(e) => this.setState({ unit: e.target.value, outputList: [] })} >
+                    <select name="unit" value={this.state.unit} onChange={(e) => this.setState({ unit: e.target.value })} >
                         <option value="All" > All </option>
                         <option value="Java" > Java </option>
                         <option value="Oracle" > Oracle </option>
@@ -144,6 +186,8 @@ class ControlQuestion extends React.Component {
                     {this.searchControler()}
                 </div>
                 <div>
+                    <button className="button is-info" onClick={() => { this.searchedListCheck() }}>一括チェック</button>
+                    <button className="button is-info" onClick={() => { this.allCheckRemove() }}>一括解除</button>
                     <button className="button is-info" onClick={() => { this.editContentsHandler("-1") }}>新しい問題</button>
                     <button className="button is-info" onClick={() => { this.outputJsonFile() }}>問題を出力する</button>
                 </div>
@@ -157,8 +201,8 @@ class ControlQuestion extends React.Component {
         }
 
         const modal = ClassNames({
-            'modal' : true,
-            'is-active' : this.state.modalIsOpen
+            'modal': true,
+            'is-active': this.state.modalIsOpen
         })
 
         return (
@@ -175,7 +219,7 @@ class ControlQuestion extends React.Component {
                     <div className="modal-content">
                         <span className="delete is-large" onClick={this.closeModal}> </span>
                         <Edit id={this.state.editId}
-                            contents={this.state.editContents} modalOpen={this.state.modalIsOpen} close={this.closeModal}/>
+                            contents={this.state.editContents} modalOpen={this.state.modalIsOpen} close={this.closeModal} />
                     </div>
                 </div>
             </div>

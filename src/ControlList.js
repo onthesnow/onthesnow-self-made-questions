@@ -5,7 +5,7 @@ export default class ControlList extends React.Component {
         super(props);
         this.changeCheckbox = this.changeCheckbox.bind(this);
         this.state = ({
-            checked: false
+            checked: this.props.isOutput
         })
     }
 
@@ -90,10 +90,16 @@ export default class ControlList extends React.Component {
                 <div className="commentary">
                     <p>答え： {contents.answer}</p>
                     <p>解説：<br />{this.comment(contents.comment)}</p>
-                    <p>{contents.url}</p>
+                    <p>参考： {contents.url}</p>
                 </div>
             </div>
         )
         return answer;
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        return({
+            checked: props.isOutput
+        })
     }
 }

@@ -69,7 +69,7 @@ export default class ListContents extends React.Component {
                     <div className="commentary">
                         <p>答え： {contents.answer}</p>
                         <p>解説：<br />{this.comment(contents.comment)}</p>
-                        <p>{contents.url}</p>
+                        <p>参考： {contents.url}</p>
                     </div>
                 }
             </div>
