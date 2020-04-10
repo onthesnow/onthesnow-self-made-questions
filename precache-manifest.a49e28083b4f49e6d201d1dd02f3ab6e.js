@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1b5cd5ee83cb4ff1a34999ee131f9299",
+    "revision": "b95d63a9394c1d66a873b5ada8288bf0",
     "url": "/onthesnow-self-made-questions/index.html"
   },
   {
-    "revision": "deea2c218623b104a5eb",
+    "revision": "4dbb61686964fc9f6317",
     "url": "/onthesnow-self-made-questions/static/css/main.cdffb57c.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/onthesnow-self-made-questions/static/js/2.3b28601e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "deea2c218623b104a5eb",
-    "url": "/onthesnow-self-made-questions/static/js/main.e3055252.chunk.js"
+    "revision": "4dbb61686964fc9f6317",
+    "url": "/onthesnow-self-made-questions/static/js/main.d6294323.chunk.js"
   },
   {
     "revision": "2eec66a4dd6d196b8856",
