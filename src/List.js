@@ -23,7 +23,7 @@ export default class ListContents extends React.Component {
             <div className="question">
                 <p><strong>問題{index + 1} ({contents.unit}：{contents.difficulty})</strong></p>
                 <p>{contents.question}</p>
-                {contents.code === "" || contents.code === undefined || contents.code === null ? <span></span>:
+                {contents.code === "" || contents.code === undefined || contents.code === null ? <span></span> :
                     <div className="codebox">
                         <p>{contents.code}</p>
                     </div>
@@ -36,7 +36,7 @@ export default class ListContents extends React.Component {
     choices(list) {
         const choiceList = list.map((choice, index) => {
             return (
-                <li key={index}>{index+1}: {choice}</li>
+                <li key={index}>{index + 1}: {choice}</li>
             );
         });
         const choices = (
@@ -48,7 +48,7 @@ export default class ListContents extends React.Component {
         return choices
     }
 
-    comment(comments){
+    comment(comments) {
         return (
             <div>解説：<br />
                 <p className="commentList">{comments}</p>
@@ -66,7 +66,10 @@ export default class ListContents extends React.Component {
                     <div className="commentary">
                         <p>答え： {contents.answer}</p>
                         {this.comment(contents.comment)}
-                        <p>参考： {contents.url}</p>
+                        {contents.url.indexOf('http') !== -1
+                            ? <p>参考： <a href={contents.url} target="_blank" rel="noopener noreferrer">{contents.url}</a></p>
+                            : <p>参考： {contents.url}</p>
+                        }
                     </div>
                 }
             </div>

@@ -116,7 +116,7 @@ export default class ControlList extends React.Component {
                     <p>答え： {contents.answer}</p>
                     {this.comment(contents.comment)}
                     {contents.url.indexOf('http') !== -1
-                    ? <p>参考： <a href={contents.url}>{contents.url}</a></p>
+                    ? <p>参考： <a href={contents.url} target="_blank" rel="noopener noreferrer">{contents.url}</a></p>
                     : <p>参考： {contents.url}</p>
                     }
                 </div>

@@ -265,10 +265,10 @@ export default class Edit extends React.Component {
                                 </th>
                             </tr>
                             <tr>
-                                <th className="questionLabel">問題文<br /><small>(改行不可)</small></th>
+                                <th className="questionLabel">問題文</th>
                                 <th>
                                     <textarea className="textarea" name="question" value={this.state.question}
-                                        onChange={(e) => this.setState({ question: e.target.value.replace(/\r?\n/g, "") })} />
+                                        onChange={(e) => this.setState({ question: e.target.value })} />
                                 </th>
                             </tr>
                             <tr>

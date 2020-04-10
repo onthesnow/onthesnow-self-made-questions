@@ -28,7 +28,6 @@ export default class Help extends React.Component {
                     </p>
                     <ul>
                         <li>問題概要、問題文、選択肢、解説は必須入力です。空白の項目がある場合、追加及び編集が行えません。</li>
-                        <li>問題文は改行ができません。</li>
                         <li>参考の項目は、「http」を含めた場合リンク表示になります。</li>
                     </ul>
                 </div>

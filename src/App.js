@@ -18,8 +18,8 @@ export default class App extends React.Component {
           <Header />
           <div className="body">
             <Switch>
-              <Route path={defaultPath} exact component={Selected} />
-              <Route path={defaultPath + "/all"} component={All} />
+              <Route path={defaultPath} exact component={All} />
+              <Route path={defaultPath + "/selected"} component={Selected} />
               <Route path={defaultPath + "/control"} component={Control} />
             </Switch>
           </div>
@@ -43,8 +43,8 @@ class Header extends React.Component {
               <Link to={defaultPath}>
                 <button className="button is-white">ホーム</button>
               </Link>
-              <Link to={defaultPath + "/all"}>
-                <button className="button is-white">全ての問題</button>
+              <Link to={defaultPath + "/selected"}>
+                <button className="button is-white">選択問題</button>
               </Link>
               <Link to={defaultPath + "/control"}>
                 <button className="button is-white">問題の追加・編集</button>

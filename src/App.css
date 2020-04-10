@@ -119,3 +119,8 @@ button {
     margin-right: 10px;
     cursor: pointer;
 }
+
+.question{
+    white-space: pre-wrap;
+    word-wrap:break-word;
+}
