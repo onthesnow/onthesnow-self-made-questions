@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/onthesnow-self-made-questions/precache-manifest.2f90a45195ef5a689caf6132b1340b4c.js"
+  "/onthesnow-self-made-questions/precache-manifest.f367bc885bf9c6b0eae17a8f3f357553.js"
 );
 
 self.addEventListener('message', (event) => {
