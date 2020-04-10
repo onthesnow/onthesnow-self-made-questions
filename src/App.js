@@ -40,15 +40,15 @@ class Header extends React.Component {
               <h1 className="title">自作問題集</h1>
             </Link>
             <div>
-              <Link to={defaultPath + "/control"}>
-                <button className="button is-white">control</button>
-              </Link>
               <Link to={defaultPath}>
-                <button className="button is-white">list</button>
+                <button className="button is-white">ホーム</button>
               </Link>
               <Link to={defaultPath + "/all"}>
-                <button className="button is-white">all</button>
+                <button className="button is-white">全ての問題</button>
               </Link>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMe-OJ7T1LkgizfWoSu6wn9hyexAveCQYeuuq-F1o5s5m_0A/viewform?usp=sf_link" target="_blank" rel="noopener noreferrer">
+                <button className="button is-white">報告、要望</button>
+              </a>
             </div>
           </div>
         </div>
