@@ -115,7 +115,10 @@ export default class ControlList extends React.Component {
                 <div className="commentary">
                     <p>答え： {contents.answer}</p>
                     {this.comment(contents.comment)}
-                    <p>参考： {contents.url}</p>
+                    {contents.url.indexOf('http') !== -1
+                    ? <p>参考： <a href={contents.url}>{contents.url}</a></p>
+                    : <p>参考： {contents.url}</p>
+                    }
                 </div>
             </div>
         )

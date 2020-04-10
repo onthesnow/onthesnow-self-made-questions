@@ -21,7 +21,7 @@ export default class ListContents extends React.Component {
     question(contents, index) {
         const question = (
             <div className="question">
-                <p><strong>問題{index + 1} ({contents.unit})</strong></p>
+                <p><strong>問題{index + 1} ({contents.unit}：{contents.difficulty})</strong></p>
                 <p>{contents.question}</p>
                 {contents.code === "" || contents.code === undefined || contents.code === null ? <span></span>:
                     <div className="codebox">
